@@ -52,13 +52,19 @@ class Board(BoardShim):
             raise  Exception("This is a singleton class")
         Board._instance = self
         
+    #function to start live stream
     def start_streaming(self):
-        self.prepare_session()
-        self.start_stream(2000)
-        time.sleep(configuration.stream_time)
-        data = self.get_board_data()
-        self.stop_stream()
-        print("Received data samples:",data.shape)
-        return data
+        try:
         
+            self.prepare_session()
+            self.start_stream(2000)
+            time.sleep(configuration.stream_time) #receive data for specified time
+            data = self.get_board_data()
+            self.stop_stream()
+            print("Received data samples:",data.shape)
+            return data
+        except Exception as e:
+            print("Error while streaming data")
+            print(e)
+            
         
