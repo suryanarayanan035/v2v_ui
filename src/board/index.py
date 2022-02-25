@@ -1,18 +1,20 @@
 import os
 from brainflow.board_shim import BoardShim,BrainFlowInputParams
 
-from dotenv import load_dotenv
-load_dotenv("../.env")
+import configuration
+
 class Board(BrainFlowInputParams):
-    _serial_port = os.getenv("CYTON_SERIAL_PORT")
-    _board_id = os.getenv("BOARD_ID")
+    serial_port = configuration.cyton_serial_port
+    board_id = configuration.board_id
     _instance = None
+    
     @staticmethod
     def getBoard():
         if Board._instance == None:
             return Board()
         return Board._instance
+    
     def __init__(self):
         if Board._instance != None:
             raise  Exception("This is a singleton class")
-        Board.instance = self
+        Board._instance = self
